@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Garis Bilangan</title>
   <style>
     body {
@@ -11,41 +11,48 @@
       padding: 40px;
     }
     .number-line {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 20px 0;
+      position: relative;
+      width: 840px; /* 21 ticks x 40px */
+      height: 80px;
+      margin: 30px auto;
+      border-bottom: 3px solid black; /* garis horizontal */
     }
     .tick {
-      width: 40px;
-      height: 50px;
-      text-align: center;
-      position: relative;
-    }
-    .tick span {
       position: absolute;
       bottom: 0;
-      width: 100%;
+      width: 2px;
+      height: 20px;
+      background-color: black;
+    }
+    .label {
+      position: absolute;
+      bottom: -25px;
+      font-weight: bold;
+      font-size: 14px;
+      user-select: none;
+      transform: translateX(-50%);
     }
     .marker {
+      position: absolute;
       width: 20px;
       height: 20px;
       background: red;
       border-radius: 50%;
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translate(-50%);
+      top: -25px;
+      left: 0;
+      transform: translateX(-50%);
+      transition: left 0.3s ease;
     }
     button {
       padding: 10px 20px;
-      margin: 10px;
+      margin: 10px 5px;
       font-size: 16px;
       border: none;
       border-radius: 8px;
       cursor: pointer;
       background: #3498db;
       color: white;
+      user-select: none;
     }
     button:hover {
       background: #2980b9;
@@ -57,7 +64,9 @@
   <h1>Garis Bilangan</h1>
   <p>Geser titik ke kiri atau ke kanan untuk memahami pergerakan bilangan bulat.</p>
 
-  <div class="number-line" id="numberLine"></div>
+  <div class="number-line" id="numberLine">
+    <div class="marker" id="marker"></div>
+  </div>
 
   <div>
     <button onclick="moveLeft()">Geser Kiri (-1)</button>
@@ -69,50 +78,58 @@
 
   <script>
     const numberLine = document.getElementById('numberLine');
+    const marker = document.getElementById('marker');
     const currentPosDisplay = document.getElementById('currentPos');
 
     const min = -10;
     const max = 10;
     let current = 0;
 
-    function drawLine() {
-      numberLine.innerHTML = '';
-      for (let i = min; i <= max; i++) {
+    const tickSpacing = 40; // px per satuan bilangan
+
+    function drawTicks() {
+      for(let i = min; i <= max; i++) {
         const tick = document.createElement('div');
         tick.className = 'tick';
-        tick.innerHTML = `<span>${i}</span>`;
-        if (i === current) {
-          const marker = document.createElement('div');
-          marker.className = 'marker';
-          tick.appendChild(marker);
-        }
+        tick.style.left = ((i - min) * tickSpacing) + 'px';
+
+        const label = document.createElement('div');
+        label.className = 'label';
+        label.style.left = ((i - min) * tickSpacing) + 'px';
+        label.textContent = i;
+
         numberLine.appendChild(tick);
+        numberLine.appendChild(label);
       }
     }
 
+    function updateMarker() {
+      const pos = (current - min) * tickSpacing;
+      marker.style.left = pos + 'px';
+      currentPosDisplay.textContent = current;
+    }
+
     function moveLeft() {
-      if (current > min) {
+      if(current > min) {
         current--;
-        currentPosDisplay.textContent = current;
-        drawLine();
+        updateMarker();
       }
     }
 
     function moveRight() {
-      if (current < max) {
+      if(current < max) {
         current++;
-        currentPosDisplay.textContent = current;
-        drawLine();
+        updateMarker();
       }
     }
 
     function reset() {
       current = 0;
-      currentPosDisplay.textContent = current;
-      drawLine();
+      updateMarker();
     }
 
-    drawLine();
+    drawTicks();
+    updateMarker();
   </script>
 
 </body>
