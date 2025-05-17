@@ -24,7 +24,7 @@ def generate_choices(correct_answer):
 
 def play_quiz(num_questions=5):
     score = 0
-    print("📘 KUIS BILANGAN BULAT UNTUK SMP 📘")
+    print("\U0001F4D8 KUIS BILANGAN BULAT \U0001F4D8")
     print("----------------------------------")
 
     for i in range(num_questions):
@@ -39,14 +39,14 @@ def play_quiz(num_questions=5):
         try:
             user_choice = int(input("Jawaban Anda (1-4): "))
             if choices[user_choice - 1] == correct_answer:
-                print("✅ Benar!")
+                print("\u2705 Benar!")
                 score += 1
             else:
-                print(f"❌ Salah. Jawaban yang benar: {correct_answer}")
+                print(f"\u274C Salah. Jawaban yang benar: {correct_answer}")
         except:
-            print(f"❌ Jawaban tidak valid. Jawaban yang benar: {correct_answer}")
+            print(f"\u274C Jawaban tidak valid. Jawaban yang benar: {correct_answer}")
 
-    print("\n📝 Kuis Selesai!")
+    print("\n\U0001F4DD Kuis Selesai!")
     print(f"Skor Anda: {score} dari {num_questions}")
 
 if __name__ == "__main__":
