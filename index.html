@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <title>Simulasi Garis Bilangan</title>
+  <title>Garis Bilangan</title>
   <style>
     body {
       font-family: sans-serif;
@@ -10,39 +10,44 @@
       background: #eef2f3;
       padding: 40px;
     }
+
     .number-line {
       position: relative;
-      width: 840px; /* 21 ticks x 40px */
-      height: 80px;
+      width: 840px;
+      height: 60px;
       margin: 30px auto;
-      border-bottom: 3px solid black; /* garis horizontal */
+      border-top: 3px solid black;
     }
+
     .tick {
       position: absolute;
-      bottom: 0;
+      top: 0;
       width: 2px;
-      height: 20px;
+      height: 15px;
       background-color: black;
     }
+
     .label {
       position: absolute;
-      bottom: -25px;
-      font-weight: bold;
-      font-size: 14px;
-      user-select: none;
+      top: 20px;
       transform: translateX(-50%);
+      font-size: 14px;
+      font-weight: bold;
     }
+
     .marker {
       position: absolute;
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       background: red;
       border-radius: 50%;
-      top: -25px;
+      top: -10px; /* pas di atas garis */
       left: 0;
       transform: translateX(-50%);
       transition: left 0.3s ease;
+      z-index: 1;
     }
+
     button {
       padding: 10px 20px;
       margin: 10px 5px;
@@ -52,8 +57,8 @@
       cursor: pointer;
       background: #3498db;
       color: white;
-      user-select: none;
     }
+
     button:hover {
       background: #2980b9;
     }
@@ -61,8 +66,8 @@
 </head>
 <body>
 
-  <h1>Simulasi Garis Bilangan</h1>
-  <p>Geser titik ke kiri atau ke kanan untuk memahami pergerakan bilangan bulat.</p>
+  <h1>Garis Bilangan</h1>
+  <p>Geser titik ke kiri atau ke kanan untuk memahami bilangan negatif dan positif.</p>
 
   <div class="number-line" id="numberLine">
     <div class="marker" id="marker"></div>
@@ -84,11 +89,10 @@
     const min = -10;
     const max = 10;
     let current = 0;
-
-    const tickSpacing = 40; // px per satuan bilangan
+    const tickSpacing = 40;
 
     function drawTicks() {
-      for(let i = min; i <= max; i++) {
+      for (let i = min; i <= max; i++) {
         const tick = document.createElement('div');
         tick.className = 'tick';
         tick.style.left = ((i - min) * tickSpacing) + 'px';
@@ -110,14 +114,14 @@
     }
 
     function moveLeft() {
-      if(current > min) {
+      if (current > min) {
         current--;
         updateMarker();
       }
     }
 
     function moveRight() {
-      if(current < max) {
+      if (current < max) {
         current++;
         updateMarker();
       }
