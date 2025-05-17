@@ -1,0 +1,53 @@
+import random
+
+def generate_question():
+    ops = ['+', '-', '*', '//']
+    op = random.choice(ops)
+    a = random.randint(-20, 20)
+    b = random.randint(-10, 10)
+    # Hindari pembagian dengan nol
+    while op == '//' and b == 0:
+        b = random.randint(-10, 10)
+
+    question = f"{a} {op} {b}"
+    correct_answer = eval(question)
+    return question, correct_answer
+
+def generate_choices(correct_answer):
+    choices = [correct_answer]
+    while len(choices) < 4:
+        wrong = correct_answer + random.randint(-10, 10)
+        if wrong != correct_answer and wrong not in choices:
+            choices.append(wrong)
+    random.shuffle(choices)
+    return choices
+
+def play_quiz(num_questions=5):
+    score = 0
+    print("📘 KUIS BILANGAN BULAT UNTUK SMP 📘")
+    print("----------------------------------")
+
+    for i in range(num_questions):
+        print(f"\nSoal {i + 1}:")
+        question, correct_answer = generate_question()
+        choices = generate_choices(correct_answer)
+
+        print(f"Apa hasil dari: {question} ?")
+        for idx, choice in enumerate(choices):
+            print(f"{idx + 1}. {choice}")
+
+        try:
+            user_choice = int(input("Jawaban Anda (1-4): "))
+            if choices[user_choice - 1] == correct_answer:
+                print("✅ Benar!")
+                score += 1
+            else:
+                print(f"❌ Salah. Jawaban yang benar: {correct_answer}")
+        except:
+            print(f"❌ Jawaban tidak valid. Jawaban yang benar: {correct_answer}")
+
+    print("\n📝 Kuis Selesai!")
+    print(f"Skor Anda: {score} dari {num_questions}")
+
+if __name__ == "__main__":
+    play_quiz()
